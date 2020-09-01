@@ -1,6 +1,6 @@
 {
-  "name": "react-chatbot-kit",
-  "version": "1.0.0",
+  "name": "react-chatbot-kit-extended",
+  "version": "1.0.1",
   "homepage": "https://fredrikoseberg.github.io/react-chatbot-kit-docs/",
   "description": "Fully customizable chatbot kit for react.",
   "main": "build/index.js",
@@ -15,8 +15,8 @@
     "build-watch": "webpack --watch"
   },
   "author": {
-    "name": "Fredrik Strand Oseberg",
-    "email": "fredrik.no@gmail.com"
+    "name": "Valery Rybak",
+    "email": "valerarybakbot@gmail.com"
   },
   "devDependencies": {
     "@babel/cli": "7.8.4",
@@ -39,6 +39,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/FredrikOseberg/react-chatbot-kit"
+    "url": "https://github.com/ashyruk/react-chatbot-kit"
   }
 }
