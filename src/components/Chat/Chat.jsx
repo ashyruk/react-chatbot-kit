@@ -1,24 +1,27 @@
 import React, { useState, useRef, useEffect } from "react";
+import { ConditionallyRender } from "react-util-kit";
 
 import UserChatMessage from "../UserChatMessage/UserChatMessage";
 import ChatbotMessage from "../ChatbotMessage/ChatbotMessage";
 import ChatBotMessageWithWidget from "../ChatBotMessageWithWidget/ChatBotMessageWithWidget";
-
-import { botMessage, createChatMessage } from "./chatUtils";
-
+import ChatbotMessageAvatar from "../ChatBotMessage/ChatBotMessageAvatar/ChatbotMessageAvatar";
+import { botMessage, callIfExists, createChatMessage } from "./chatUtils";
 import ChatIcon from "../../assets/icons/paper-plane.svg";
-
+import CancelIcon from "../../assets/icons/cancel.svg";
 import "./Chat.css";
 
 const Chat = ({
-  state,
-  setState,
-  widgetRegistry,
-  messageParser,
-  customComponents,
-  botName,
-  customStyles,
-}) => {
+                state,
+                setState,
+                widgetRegistry,
+                messageParser,
+                customComponents,
+                botName,
+                showHeaderAvatar,
+                chatInputPlaceholder,
+                customStyles,
+                hideChat,
+              }) => {
   const { messages } = state;
   const chatContainerRef = useRef(null);
 
@@ -101,15 +104,17 @@ const Chat = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setState((state) => ({
-      ...state,
-      messages: [...state.messages, createChatMessage(input, "user")],
-    }));
+    if (input) {
+      setState((state) => ({
+        ...state,
+        messages: [...state.messages, createChatMessage(input, "user")],
+      }));
 
-    messageParser.parse(input);
+      messageParser.parse(input);
 
-    scrollIntoView();
-    setInputValue("");
+      scrollIntoView();
+      setInputValue('');
+    }
   };
 
   const customButtonStyle = {};
@@ -120,12 +125,28 @@ const Chat = ({
   return (
     <div className="react-chatbot-kit-chat-container">
       <div className="react-chatbot-kit-chat-inner-container">
-        <div className="react-chatbot-kit-chat-header">
-          Conversation with {botName}
+        <div className="react-chatbot-kit-chat-header" style={customStyles.chatHeader || {}}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <ConditionallyRender
+              ifTrue={showHeaderAvatar}
+              show={
+                <ConditionallyRender
+                  ifTrue={customComponents.botAvatar}
+                  show={callIfExists(customComponents.botAvatar)}
+                  elseShow={<ChatbotMessageAvatar />}
+                />
+              }
+            />
+            {botName}
+          </div>
+          <div onClick={hideChat} style={{ cursor: 'pointer' }}>
+            <CancelIcon className="react-chatbot-kit-chat-btn-close-icon" />
+          </div>
         </div>
 
         <div
           className="react-chatbot-kit-chat-message-container"
+          style={customStyles.chatMessagesContainer || {}}
           ref={chatContainerRef}
         >
           {renderMessages()}
@@ -139,7 +160,7 @@ const Chat = ({
           >
             <input
               className="react-chatbot-kit-chat-input"
-              placeholder="Write your message here"
+              placeholder={chatInputPlaceholder || 'Write your message here'}
               value={input}
               onChange={(e) => setInputValue(e.target.value)}
             />

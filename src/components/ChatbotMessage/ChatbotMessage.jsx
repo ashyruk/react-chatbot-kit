@@ -51,6 +51,7 @@ const ChatbotMessage = ({
 
   if (customStyles) {
     chatBoxCustomStyles.backgroundColor = customStyles.backgroundColor;
+    chatBoxCustomStyles.color = customStyles.color || '#fff';
     arrowCustomStyles.borderRightColor = customStyles.backgroundColor;
   }
 
@@ -77,7 +78,7 @@ const ChatbotMessage = ({
               loader: <Loader />,
             })}
             elseShow={
-              <div
+              message ? <div
                 className="react-chatbot-kit-chat-bot-message"
                 style={chatBoxCustomStyles}
               >
@@ -95,7 +96,7 @@ const ChatbotMessage = ({
                     ></div>
                   }
                 />
-              </div>
+              </div> : null
             }
           />
         </div>

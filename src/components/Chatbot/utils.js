@@ -1,9 +1,4 @@
-export const getCustomStyles = (config) => {
-  if (config.customStyles) {
-    return config.customStyles;
-  }
-  return {};
-};
+export const getCustomStyles = (config) => config.customStyles || {};
 
 export const getInitialState = (config) => {
   if (config.state) {
@@ -36,6 +31,9 @@ export const getBotName = (config) => {
   }
   return "Bot";
 };
+
+export const getShowHeaderAvatar = (config) => config.showHeaderAvatar || false;
+export const getChatInputPlaceholder = (config) => config.chatInputPlaceholder;
 
 export const getObject = (object) => {
   if (typeof object === "object") return object;

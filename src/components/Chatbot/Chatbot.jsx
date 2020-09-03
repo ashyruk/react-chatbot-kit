@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-
+import { ConditionallyRender } from "react-util-kit";
 import Chat from "../Chat/Chat";
 
 import WidgetRegistry from "../WidgetRegistry/WidgetRegistry";
 import ChatbotError from "../ChatbotError/ChatbotError";
 
-import { createChatBotMessage } from "../Chat/chatUtils";
+import { callIfExists, createChatBotMessage } from "../Chat/chatUtils";
 import {
   getCustomStyles,
   getInitialState,
@@ -13,9 +13,13 @@ import {
   getCustomComponents,
   getBotName,
   validateProps,
+  getShowHeaderAvatar,
+  getChatInputPlaceholder,
 } from "./utils";
+import ChatbotMessageAvatar from "../ChatBotMessage/ChatBotMessageAvatar/ChatbotMessageAvatar";
 
 const Chatbot = ({ actionProvider, messageParser, config }) => {
+  const [expanded, setExpanded] = useState(false);
   if (!config || !actionProvider || !messageParser) {
     return (
       <ChatbotError message="I think you forgot to feed me some props. Did you remember to pass a config, a messageparser and an actionprovider?" />
@@ -43,6 +47,8 @@ const Chatbot = ({ actionProvider, messageParser, config }) => {
   const customStyles = getCustomStyles(config);
   const customComponents = getCustomComponents(config);
   const botName = getBotName(config);
+  const showHeaderAvatar = getShowHeaderAvatar(config);
+  const chatInputPlaceholder = getChatInputPlaceholder(config);
 
   const actionProv = new actionProvider(createChatBotMessage, setState);
   const widgetRegistry = new WidgetRegistry(setState, actionProv);
@@ -52,14 +58,34 @@ const Chatbot = ({ actionProvider, messageParser, config }) => {
   widgets.forEach((widget) => widgetRegistry.addWidget(widget));
 
   return (
-    <Chat
-      state={state}
-      setState={setState}
-      widgetRegistry={widgetRegistry}
-      messageParser={messagePars}
-      customComponents={{ ...customComponents }}
-      botName={botName}
-      customStyles={{ ...customStyles }}
+    <ConditionallyRender
+      ifTrue={expanded}
+      show={(
+        <Chat
+          state={state}
+          setState={setState}
+          widgetRegistry={widgetRegistry}
+          messageParser={messagePars}
+          customComponents={{ ...customComponents }}
+          botName={botName}
+          showHeaderAvatar={showHeaderAvatar}
+          chatInputPlaceholder={chatInputPlaceholder}
+          customStyles={{ ...customStyles }}
+          hideChat={() => setExpanded(false)}
+        />
+      )}
+      elseShow={(
+        <div
+          onClick={() => setExpanded(true)}
+          style={{ marginBottom: '15px', cursor: 'pointer' }}
+        >
+          <ConditionallyRender
+            ifTrue={customComponents.botAvatar}
+            show={callIfExists(customComponents.botAvatar)}
+            elseShow={<ChatbotMessageAvatar />}
+          />
+        </div>
+      )}
     />
   );
 };

@@ -6,7 +6,6 @@
 .react-chatbot-kit-chat-inner-container {
   height: 500px;
   background-color: #fff;
-  border-radius: 3px;
   margin-bottom: 15px;
   border-radius: 5px;
 }
@@ -22,6 +21,7 @@
   color: #514f4f;
   padding: 12.5px;
   font-weight: bold;
+  justify-content: space-between;
 }
 
 .react-chatbot-kit-chat-input-container {
@@ -44,6 +44,7 @@
   font-size: 0.85rem;
   border-top: 1px solid #d8d8d8;
   border-bottom-left-radius: 5px;
+  outline: none;
 }
 
 .react-chatbot-kit-chat-input-form {
@@ -61,9 +62,16 @@
   border: none;
   color: #fff;
   border-bottom-right-radius: 5px;
+  outline: none;
+  cursor: pointer;
 }
 
 .react-chatbot-kit-chat-btn-send-icon {
   fill: #fff;
   width: 15px;
+}
+.react-chatbot-kit-chat-btn-close-icon {
+  fill: #fff;
+  width: 20px;
+  height: 20px;
 }

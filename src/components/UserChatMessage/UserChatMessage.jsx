@@ -18,7 +18,7 @@ const UserChatMessage = ({ message, customComponents }) => {
         elseShow={
           <div className="react-chatbot-kit-user-chat-message">
             {message}
-            <div className="react-chatbot-kit-user-chat-message-arrow"></div>
+            <div className="react-chatbot-kit-user-chat-message-arrow"/>
           </div>
         }
       />
