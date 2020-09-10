@@ -8,42 +8,44 @@ import "./ChatbotMessage.css";
 import { callIfExists } from "../Chat/chatUtils";
 
 const ChatbotMessage = ({
-  message,
-  withAvatar,
-  loading,
-  messages,
-  customComponents,
-  setState,
-  customStyles,
-  delay,
-  id,
-}) => {
+                          message,
+                          withAvatar,
+                          loading,
+                          messages,
+                          customComponents,
+                          setState,
+                          customStyles,
+                          delay,
+                          scrollIntoView,
+                          id,
+                        }) => {
   const [show, toggleShow] = useState(false);
+  /*
+    useEffect(() => {
+      const disableLoading = (messages, setState) => {
+        let defaultDisableTime = 750;
+        if (delay) defaultDisableTime += delay;
+        setTimeout(() => {
+          const message = messages.find((message) => message.id === id);
 
-  useEffect(() => {
-    const disableLoading = (messages, setState) => {
-      let defaultDisableTime = 750;
-      if (delay) defaultDisableTime += delay;
-      setTimeout(() => {
-        const message = messages.find((message) => message.id === id);
+          if (!message) return;
+          message.loading = false;
+          message.delay = undefined;
 
-        if (!message) return;
-        message.loading = false;
-        message.delay = undefined;
+          setState((state) => ({ ...state, messages: messages }));
+        }, defaultDisableTime);
+      };
 
-        setState((state) => ({ ...state, messages: messages }));
-      }, defaultDisableTime);
-    };
-
-    disableLoading(messages, setState);
-  }, [delay, id, setState]);
-
+      disableLoading(messages, setState);
+    }, [delay, id, setState]);
+  */
   useEffect(() => {
     if (delay) {
       setTimeout(() => toggleShow(true), delay);
     } else {
       toggleShow(true);
     }
+    setState(state => ({...state}));
   }, [delay]);
 
   const chatBoxCustomStyles = {};
@@ -83,7 +85,7 @@ const ChatbotMessage = ({
                 style={chatBoxCustomStyles}
               >
                 <ConditionallyRender
-                  ifTrue={loading}
+                  ifTrue={!show}
                   show={<Loader />}
                   elseShow={<span>{message}</span>}
                 />
