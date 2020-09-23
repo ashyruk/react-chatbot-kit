@@ -54,6 +54,12 @@ export const validateProps = (config, MessageParser) => {
       "Messageparser must implement the method 'parse', please add this method to your object. The signature is parse(message: string)."
     );
   }
+  if (!messageParser["onOpen"]) {
+    errors.push(
+      "Messageparser must implement the method 'onOpen', please add this method to your object." +
+      " The signature is onOpen(): void."
+    );
+  }
 
   return errors;
 };

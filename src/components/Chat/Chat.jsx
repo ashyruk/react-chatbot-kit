@@ -122,6 +122,10 @@ const Chat = ({
     customButtonStyle.backgroundColor = customStyles.chatButton.backgroundColor;
   }
 
+  useEffect(() => {
+    messageParser.onOpen && (typeof messageParser.onOpen === 'function') && messageParser.onOpen();
+  }, []);
+
   return (
     <div className="react-chatbot-kit-chat-container">
       <div className="react-chatbot-kit-chat-inner-container">

@@ -18,7 +18,7 @@ const ChatbotMessageWithWidget = ({
   const [load, toggleLoad] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => toggleLoad(false), passDownProps.delay || 500);
+    setTimeout(() => toggleLoad(false), passDownProps.delay || 50);
     // scrollIntoView();
   },[]);
 

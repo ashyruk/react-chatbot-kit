@@ -18,7 +18,7 @@ import {
 } from "./utils";
 import ChatbotMessageAvatar from "../ChatBotMessage/ChatBotMessageAvatar/ChatbotMessageAvatar";
 
-const Chatbot = ({ actionProvider, messageParser, config }) => {
+const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
   const [expanded, setExpanded] = useState(false);
   if (!config || !actionProvider || !messageParser) {
     return (
@@ -56,6 +56,14 @@ const Chatbot = ({ actionProvider, messageParser, config }) => {
 
   const widgets = getWidgets(config);
   widgets.forEach((widget) => widgetRegistry.addWidget(widget));
+  const onOpenChat = () => {
+    onOpen && (typeof onOpen === 'function') && onOpen();
+    setExpanded(true);
+  };
+  const onHideChat = () => {
+    setExpanded(false);
+    setState((state) => ({ ...state, messages: [] }));
+  };
 
   return (
     <ConditionallyRender
@@ -71,12 +79,12 @@ const Chatbot = ({ actionProvider, messageParser, config }) => {
           showHeaderAvatar={showHeaderAvatar}
           chatInputPlaceholder={chatInputPlaceholder}
           customStyles={{ ...customStyles }}
-          hideChat={() => setExpanded(false)}
+          hideChat={onHideChat}
         />
       )}
       elseShow={(
         <div
-          onClick={() => setExpanded(true)}
+          onClick={onOpenChat}
           style={{ marginBottom: '15px', cursor: 'pointer' }}
         >
           <ConditionallyRender
