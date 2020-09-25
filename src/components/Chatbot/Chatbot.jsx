@@ -85,12 +85,14 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
       elseShow={(
         <div
           onClick={onOpenChat}
-          style={{ marginBottom: '15px', cursor: 'pointer' }}
+          style={{ cursor: 'pointer' }}
         >
           <ConditionallyRender
-            ifTrue={customComponents.botAvatar}
-            show={callIfExists(customComponents.botAvatar)}
-            elseShow={<ChatbotMessageAvatar />}
+            ifTrue={customComponents.minimizedChat}
+            show={callIfExists(customComponents.minimizedChat)}
+            elseShow={customComponents.botAvatar
+              ? callIfExists(customComponents.botAvatar)
+              : <ChatbotMessageAvatar />}
           />
         </div>
       )}
