@@ -155,6 +155,13 @@ const Chat = ({
         >
           {renderMessages()}
           <div style={{ paddingBottom: "15px" }} />
+          {state.error && (
+            <div>
+              <span style={{ color: 'red', fontSize: '0.85em' }}>
+                {state.error}
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="react-chatbot-kit-chat-input-container">

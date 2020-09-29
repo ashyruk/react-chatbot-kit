@@ -65,8 +65,11 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
     setState((state) => ({ ...state, messages: [] }));
   };
 
-  useEffect(async () => {
-    await setTimeout(onOpenChat, initialState.waitForFirstOpenMs);
+  useEffect(() => {
+    async function waitAndOpen() {
+      await setTimeout(onOpenChat, initialState.waitForFirstOpenMs);
+    }
+    waitAndOpen();
   }, []);
 
   return (
