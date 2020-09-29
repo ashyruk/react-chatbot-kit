@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ConditionallyRender } from "react-util-kit";
 import Chat from "../Chat/Chat";
 
@@ -64,6 +64,10 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
     setExpanded(false);
     setState((state) => ({ ...state, messages: [] }));
   };
+
+  useEffect(async () => {
+    await setTimeout(onOpenChat, initialState.waitForFirstOpenMs);
+  }, []);
 
   return (
     <ConditionallyRender
