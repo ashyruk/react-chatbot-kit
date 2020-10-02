@@ -7,7 +7,7 @@ import UserIcon from "../../assets/icons/user-alt.svg";
 
 import "./UserChatMessage.css";
 
-const UserChatMessage = ({ message, customComponents }) => {
+const UserChatMessage = ({ message, customComponents, showUserAvatar }) => {
   return (
     <div className="react-chatbot-kit-user-chat-message-container">
       <ConditionallyRender
@@ -25,12 +25,15 @@ const UserChatMessage = ({ message, customComponents }) => {
       <ConditionallyRender
         ifTrue={customComponents.userAvatar}
         show={callIfExists(customComponents.userAvatar)}
-        elseShow={
-          <div className="react-chatbot-kit-user-avatar">
-            <div className="react-chatbot-kit-user-avatar-container">
-              <UserIcon className="react-chatbot-kit-user-avatar-icon" />
+        elseShow={showUserAvatar
+          ? (
+            <div className="react-chatbot-kit-user-avatar">
+              <div className="react-chatbot-kit-user-avatar-container">
+                <UserIcon className="react-chatbot-kit-user-avatar-icon" />
+              </div>
             </div>
-          </div>
+          )
+          : null
         }
       />
     </div>

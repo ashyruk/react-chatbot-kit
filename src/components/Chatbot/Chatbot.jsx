@@ -15,6 +15,7 @@ import {
   validateProps,
   getShowHeaderAvatar,
   getChatInputPlaceholder,
+  getShowUserAvatar,
 } from "./utils";
 import ChatbotMessageAvatar from "../ChatBotMessage/ChatBotMessageAvatar/ChatbotMessageAvatar";
 
@@ -48,6 +49,7 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
   const customComponents = getCustomComponents(config);
   const botName = getBotName(config);
   const showHeaderAvatar = getShowHeaderAvatar(config);
+  const showUserAvatar = getShowUserAvatar(config);
   const chatInputPlaceholder = getChatInputPlaceholder(config);
 
   const actionProv = new actionProvider(createChatBotMessage, setState);
@@ -84,6 +86,7 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
           customComponents={{ ...customComponents }}
           botName={botName}
           showHeaderAvatar={showHeaderAvatar}
+          showUserAvatar={showUserAvatar}
           chatInputPlaceholder={chatInputPlaceholder}
           customStyles={{ ...customStyles }}
           hideChat={onHideChat}

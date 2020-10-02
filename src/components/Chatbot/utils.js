@@ -33,6 +33,7 @@ export const getBotName = (config) => {
 };
 
 export const getShowHeaderAvatar = (config) => config.showHeaderAvatar || false;
+export const getShowUserAvatar = (config) => config.showUserAvatar || false;
 export const getChatInputPlaceholder = (config) => config.chatInputPlaceholder;
 
 export const getObject = (object) => {

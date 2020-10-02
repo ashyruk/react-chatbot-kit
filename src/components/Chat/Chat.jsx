@@ -18,6 +18,7 @@ const Chat = ({
                 customComponents,
                 botName,
                 showHeaderAvatar,
+                showUserAvatar,
                 chatInputPlaceholder,
                 customStyles,
                 hideChat,
@@ -57,6 +58,7 @@ const Chat = ({
             message={messageObject.message}
             key={messageObject.id}
             customComponents={customComponents}
+            showUserAvatar={showUserAvatar}
           />
         );
 
