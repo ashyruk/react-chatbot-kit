@@ -16,6 +16,7 @@ import {
   getShowHeaderAvatar,
   getChatInputPlaceholder,
   getShowUserAvatar,
+  getLocale
 } from "./utils";
 import ChatbotMessageAvatar from "../ChatBotMessage/ChatBotMessageAvatar/ChatbotMessageAvatar";
 
@@ -47,6 +48,7 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
 
   const customStyles = getCustomStyles(config);
   const customComponents = getCustomComponents(config);
+  const locale = getLocale(config);
   const botName = getBotName(config);
   const showHeaderAvatar = getShowHeaderAvatar(config);
   const showUserAvatar = getShowUserAvatar(config);
@@ -85,6 +87,7 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
           messageParser={messagePars}
           customComponents={{ ...customComponents }}
           botName={botName}
+          locale={locale}
           showHeaderAvatar={showHeaderAvatar}
           showUserAvatar={showUserAvatar}
           chatInputPlaceholder={chatInputPlaceholder}

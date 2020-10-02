@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Fragment } from "react";
 import { ConditionallyRender } from "react-util-kit";
 
 import UserChatMessage from "../UserChatMessage/UserChatMessage";
 import ChatbotMessage from "../ChatbotMessage/ChatbotMessage";
 import ChatBotMessageWithWidget from "../ChatBotMessageWithWidget/ChatBotMessageWithWidget";
 import ChatbotMessageAvatar from "../ChatBotMessage/ChatBotMessageAvatar/ChatbotMessageAvatar";
-import { botMessage, callIfExists, createChatMessage } from "./chatUtils";
+import { botMessage, callIfExists, createChatMessage, formatDate } from "./chatUtils";
 import ChatIcon from "../../assets/icons/paper-plane.svg";
 import CancelIcon from "../../assets/icons/cancel.svg";
 import "./Chat.css";
@@ -17,6 +17,7 @@ const Chat = ({
                 messageParser,
                 customComponents,
                 botName,
+                locale,
                 showHeaderAvatar,
                 showUserAvatar,
                 chatInputPlaceholder,
@@ -44,16 +45,19 @@ const Chat = ({
 
     const lastMessage = messages[index - 1];
 
-    if (lastMessage.type === "bot" && !lastMessage.widget) {
-      return false;
-    }
-    return true;
+    return !(lastMessage.type === "bot" && !lastMessage.widget);
   };
 
   const renderMessages = () => {
-    return messages.map((messageObject, index) => {
-      if (!botMessage(messageObject))
-        return (
+    const dateGroupMessages = messages.map(message => ({
+      ...message,
+      createdAt: formatDate(message.createdAt, locale),
+    }));
+    return dateGroupMessages.map((messageObject, index, arr) => {
+      let messageComponent;
+
+      if (!botMessage(messageObject)) {
+        messageComponent = (
           <UserChatMessage
             message={messageObject.message}
             key={messageObject.id}
@@ -61,46 +65,59 @@ const Chat = ({
             showUserAvatar={showUserAvatar}
           />
         );
-
-      let withAvatar;
-      if (messageObject.withAvatar) {
-        withAvatar = messageObject.withAvatar;
       } else {
-        withAvatar = showAvatar(messages, index, messageObject.withAvatar);
+
+        let withAvatar;
+        if (messageObject.withAvatar) {
+          withAvatar = messageObject.withAvatar;
+        } else {
+          withAvatar = showAvatar(messages, index, messageObject.withAvatar);
+        }
+
+        const chatBotMessageProps = {
+          passDownProps: { ...messageObject },
+          setState,
+          state,
+          customComponents,
+          widgetRegistry,
+          messages,
+        };
+
+        if (messageObject.widget) {
+          messageComponent = (
+            <ChatBotMessageWithWidget
+              customStyles={customStyles}
+              scrollIntoView={scrollIntoView}
+              withAvatar={withAvatar}
+              {...chatBotMessageProps}
+              key={messageObject.id}
+            />
+          );
+        } else {
+          messageComponent = (
+            <ChatbotMessage
+              customStyles={customStyles.botMessageBox}
+              key={messageObject.id}
+              withAvatar={withAvatar}
+              {...chatBotMessageProps.passDownProps}
+              customComponents={customComponents}
+              messages={messages}
+              setState={setState}
+            />
+          );
+        }
       }
 
-      const chatBotMessageProps = {
-        passDownProps: { ...messageObject },
-        setState,
-        state,
-        customComponents,
-        widgetRegistry,
-        messages,
-      };
-
-      if (messageObject.widget) {
-        return (
-          <ChatBotMessageWithWidget
-            customStyles={customStyles}
-            scrollIntoView={scrollIntoView}
-            withAvatar={withAvatar}
-            {...chatBotMessageProps}
-            key={messageObject.id}
-          />
-        );
-      }
-
-      return (
-        <ChatbotMessage
-          customStyles={customStyles.botMessageBox}
-          key={messageObject.id}
-          withAvatar={withAvatar}
-          {...chatBotMessageProps.passDownProps}
-          customComponents={customComponents}
-          messages={messages}
-          setState={setState}
-        />
-      );
+      return (index === 0) || ((index > 0) && (messageObject.createdAt !== arr[index - 1].createdAt))
+        ? (
+          <Fragment key={messageObject.id}>
+            <span style={{ color: '#868686', fontSize: '15px' }}>
+              {messageObject.createdAt}
+            </span>
+            {messageComponent}
+          </Fragment>
+        )
+        : messageComponent
     });
   };
 
@@ -159,7 +176,7 @@ const Chat = ({
           <div style={{ paddingBottom: "15px" }} />
           {state.error && (
             <div>
-              <span style={{ color: 'red', fontSize: '0.85em' }}>
+              <span style={{ color: 'red', fontSize: '0.85rem', paddingBottom: '3px' }}>
                 {state.error}
               </span>
             </div>

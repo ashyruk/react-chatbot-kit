@@ -25,13 +25,8 @@ export const getCustomComponents = (config) => {
   };
 };
 
-export const getBotName = (config) => {
-  if (config.botName) {
-    return config.botName;
-  }
-  return "Bot";
-};
-
+export const getBotName = (config) => config.botName || 'Bot';
+export const getLocale = (config) => config.locale || 'en';
 export const getShowHeaderAvatar = (config) => config.showHeaderAvatar || false;
 export const getShowUserAvatar = (config) => config.showUserAvatar || false;
 export const getChatInputPlaceholder = (config) => config.chatInputPlaceholder;
