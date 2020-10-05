@@ -102,7 +102,7 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
         >
           <ConditionallyRender
             ifTrue={customComponents.minimizedChat}
-            show={callIfExists(customComponents.minimizedChat)}
+            show={callIfExists(customComponents.minimizedChat, { onOpen: onOpenChat })}
             elseShow={customComponents.botAvatar
               ? callIfExists(customComponents.botAvatar)
               : <ChatbotMessageAvatar />}

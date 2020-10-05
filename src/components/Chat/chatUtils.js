@@ -67,8 +67,8 @@ export const formatDate = (dateISO, loc) => {
   } else if (isYesterday(date)) {
     return strings[loc].yesterday;
   } else if (isThisYear(date)) {
-    return format(date, 'MMMM dd', { locale: locales[loc] });
+    return format(date, 'LLLL d', { locale: locales[loc] });
   } else {
-    return format(date, 'MMMM dd, yyyy', { locale: locales[loc] });
+    return format(date, 'LLLL d, yyyy', { locale: locales[loc] });
   }
 };
