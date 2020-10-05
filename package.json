@@ -1,6 +1,6 @@
 {
   "name": "react-chatbot-kit-extended",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "homepage": "https://fredrikoseberg.github.io/react-chatbot-kit-docs/",
   "description": "Fully customizable chatbot kit for react.",
   "main": "build/index.js",
