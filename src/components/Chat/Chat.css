@@ -70,8 +70,19 @@
   fill: #fff;
   width: 15px;
 }
+.react-chatbot-kit-chat-btn-close {
+  cursor: pointer;
+  align-self: flex-start;
+}
 .react-chatbot-kit-chat-btn-close-icon {
   fill: #fff;
   width: 20px;
   height: 20px;
+}
+.react-chatbot-kit-chat-header-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+
 }

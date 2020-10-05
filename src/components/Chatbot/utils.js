@@ -26,6 +26,7 @@ export const getCustomComponents = (config) => {
 };
 
 export const getBotName = (config) => config.botName || 'Bot';
+export const getHeaderDesc = (config) => config.headerDescription || '';
 export const getLocale = (config) => config.locale || 'en';
 export const getShowHeaderAvatar = (config) => config.showHeaderAvatar || false;
 export const getShowUserAvatar = (config) => config.showUserAvatar || false;

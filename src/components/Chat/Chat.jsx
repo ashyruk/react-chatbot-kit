@@ -17,6 +17,7 @@ const Chat = ({
                 messageParser,
                 customComponents,
                 botName,
+                headerDescription,
                 locale,
                 showHeaderAvatar,
                 showUserAvatar,
@@ -160,9 +161,12 @@ const Chat = ({
                 />
               }
             />
-            {botName}
+            <div className="react-chatbot-kit-chat-header-caption">
+              <span className="name">{botName}</span>
+              <span className="description">{headerDescription}</span>
+            </div>
           </div>
-          <div onClick={hideChat} style={{ cursor: 'pointer' }}>
+          <div onClick={hideChat} className="react-chatbot-kit-chat-btn-close">
             <CancelIcon className="react-chatbot-kit-chat-btn-close-icon" />
           </div>
         </div>
