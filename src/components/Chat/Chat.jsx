@@ -24,6 +24,8 @@ const Chat = ({
                 chatInputPlaceholder,
                 customStyles,
                 hideChat,
+                visible,
+                firstOpen,
               }) => {
   const { messages } = state;
   const chatContainerRef = useRef(null);
@@ -143,11 +145,16 @@ const Chat = ({
   }
 
   useEffect(() => {
-    messageParser.onOpen && (typeof messageParser.onOpen === 'function') && messageParser.onOpen();
-  }, []);
+    if (!firstOpen) {
+      messageParser.onOpen && (typeof messageParser.onOpen === 'function') && messageParser.onOpen();
+    }
+  }, [firstOpen]);
 
   return (
-    <div className="react-chatbot-kit-chat-container">
+    <div
+      className="react-chatbot-kit-chat-container"
+      style={{ display: visible ? 'block' : 'none' }}
+    >
       <div className="react-chatbot-kit-chat-inner-container">
         <div className="react-chatbot-kit-chat-header" style={customStyles.chatHeader || {}}>
           <div style={{ display: 'flex', alignItems: 'center' }}>

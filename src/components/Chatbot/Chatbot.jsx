@@ -21,6 +21,7 @@ import {
 import ChatbotMessageAvatar from "../ChatBotMessage/ChatBotMessageAvatar/ChatbotMessageAvatar";
 
 const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
+  const [firstOpen, setFirstOpen] = useState(true);
   const [expanded, setExpanded] = useState(false);
   if (!config || !actionProvider || !messageParser) {
     return (
@@ -64,55 +65,54 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
 
   const onOpenChat = () => {
     onOpen && (typeof onOpen === 'function') && onOpen();
+    if (firstOpen) {
+      setFirstOpen(false);
+    }
     setExpanded(true);
   };
   const onHideChat = () => {
     setExpanded(false);
-    setState((state) => ({ ...state, messages: [] }));
   };
 
   useEffect(() => {
     async function waitAndOpen() {
       await setTimeout(onOpenChat, initialState.waitForFirstOpenMs);
     }
-    waitAndOpen();
+    firstOpen && waitAndOpen();
   }, []);
 
   return (
-    <ConditionallyRender
-      ifTrue={expanded}
-      show={(
-        <Chat
-          state={state}
-          setState={setState}
-          widgetRegistry={widgetRegistry}
-          messageParser={messagePars}
-          customComponents={{ ...customComponents }}
-          botName={botName}
-          headerDescription={headerDescription}
-          locale={locale}
-          showHeaderAvatar={showHeaderAvatar}
-          showUserAvatar={showUserAvatar}
-          chatInputPlaceholder={chatInputPlaceholder}
-          customStyles={{ ...customStyles }}
-          hideChat={onHideChat}
+    <>
+      <Chat
+        state={state}
+        visible={expanded}
+        firstOpen={firstOpen}
+        setState={setState}
+        widgetRegistry={widgetRegistry}
+        messageParser={messagePars}
+        customComponents={{ ...customComponents }}
+        botName={botName}
+        headerDescription={headerDescription}
+        locale={locale}
+        showHeaderAvatar={showHeaderAvatar}
+        showUserAvatar={showUserAvatar}
+        chatInputPlaceholder={chatInputPlaceholder}
+        customStyles={{ ...customStyles }}
+        hideChat={onHideChat}
+      />
+      <div
+        onClick={onOpenChat}
+        style={{ cursor: 'pointer', display: expanded ? 'none' : 'block' }}
+      >
+        <ConditionallyRender
+          ifTrue={customComponents.minimizedChat}
+          show={callIfExists(customComponents.minimizedChat, { onOpen: onOpenChat })}
+          elseShow={customComponents.botAvatar
+            ? callIfExists(customComponents.botAvatar)
+            : <ChatbotMessageAvatar />}
         />
-      )}
-      elseShow={(
-        <div
-          onClick={onOpenChat}
-          style={{ cursor: 'pointer' }}
-        >
-          <ConditionallyRender
-            ifTrue={customComponents.minimizedChat}
-            show={callIfExists(customComponents.minimizedChat, { onOpen: onOpenChat })}
-            elseShow={customComponents.botAvatar
-              ? callIfExists(customComponents.botAvatar)
-              : <ChatbotMessageAvatar />}
-          />
-        </div>
-      )}
-    />
+      </div>
+    </>
   );
 };
 
