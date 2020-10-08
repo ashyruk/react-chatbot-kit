@@ -18,9 +18,13 @@ const ChatbotMessageWithWidget = ({
   const [load, toggleLoad] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => toggleLoad(false), passDownProps.delay || 50);
+    if (passDownProps.delay) {
+      setTimeout(() => toggleLoad(false), passDownProps.delay || 50);
+    } else {
+      toggleLoad(false);
+    }
     // scrollIntoView();
-  },[]);
+  }, [passDownProps.delay]);
 
   return (
     load
@@ -35,7 +39,7 @@ const ChatbotMessageWithWidget = ({
             setState={setState}
             customComponents={customComponents}
             scrollIntoView={scrollIntoView}
-        />
+          />
           <ConditionallyRender
             // ifTrue={!passDownProps.loading}
             ifTrue={!load}

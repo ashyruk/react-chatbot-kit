@@ -61,6 +61,7 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
 
   const widgets = getWidgets(config);
   widgets.forEach((widget) => widgetRegistry.addWidget(widget));
+
   const onOpenChat = () => {
     onOpen && (typeof onOpen === 'function') && onOpen();
     setExpanded(true);
