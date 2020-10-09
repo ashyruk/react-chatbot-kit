@@ -114,7 +114,7 @@ const Chat = ({
       return (index === 0) || ((index > 0) && (messageObject.createdAt !== arr[index - 1].createdAt))
         ? (
           <Fragment key={messageObject.id}>
-            <span style={{ color: '#868686', fontSize: '15px' }}>
+            <span className="react-chatbot-kit-chat-date-mark">
               {messageObject.createdAt}
             </span>
             {messageComponent}
