@@ -61,6 +61,9 @@
   width: 100%;
   justify-content: center;
 }
+.chatbot-inline-loader-container {
+  display: inline;
+}
 
 #chatbot-loader #chatbot-loader-dot1 {
   animation: load 1s infinite;

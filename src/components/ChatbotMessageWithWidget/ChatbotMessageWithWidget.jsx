@@ -47,6 +47,7 @@ const ChatbotMessageWithWidget = ({
               ...state,
               scrollIntoView,
               passDownProps,
+              withAvatar,
             })}
           />
         </Fragment>

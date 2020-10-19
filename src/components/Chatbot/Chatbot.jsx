@@ -56,7 +56,7 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
   const showUserAvatar = getShowUserAvatar(config);
   const chatInputPlaceholder = getChatInputPlaceholder(config);
 
-  const actionProv = new actionProvider(createChatBotMessage, setState);
+  const actionProv = new actionProvider(createChatBotMessage, setState, state);
   const widgetRegistry = new WidgetRegistry(setState, actionProv);
   const messagePars = new messageParser(actionProv, state);
 
@@ -69,9 +69,17 @@ const Chatbot = ({ actionProvider, messageParser, config, onOpen }) => {
       setFirstOpen(false);
     }
     setExpanded(true);
+    setState((state) => ({
+      ...state,
+      expanded: true,
+    }));
   };
   const onHideChat = () => {
     setExpanded(false);
+    setState((state) => ({
+      ...state,
+      expanded: false,
+    }));
   };
 
   useEffect(() => {

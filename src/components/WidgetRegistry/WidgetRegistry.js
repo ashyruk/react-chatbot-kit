@@ -26,6 +26,7 @@ class WidgetRegistry {
       setState: this.setState,
       actionProvider: this.actionProvider,
       passDownProps: state.passDownProps,
+      withAvatar: state.withAvatar,
     };
 
     return widgetObject.widget(props);

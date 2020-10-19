@@ -63,7 +63,7 @@ const ChatbotMessage = ({
       show={
         <div className="react-chatbot-kit-chat-bot-message-container">
           <ConditionallyRender
-            ifTrue={withAvatar}
+            ifTrue={withAvatar && message}
             show={
               <ConditionallyRender
                 ifTrue={customComponents.botAvatar}

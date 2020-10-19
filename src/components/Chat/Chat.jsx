@@ -9,6 +9,7 @@ import { botMessage, callIfExists, createChatMessage, formatDate } from "./chatU
 import ChatIcon from "../../assets/icons/paper-plane.svg";
 import CancelIcon from "../../assets/icons/cancel.svg";
 import "./Chat.css";
+import InlineLoader from "../InlineLoader/InlineLoader";
 
 const Chat = ({
                 state,
@@ -184,12 +185,20 @@ const Chat = ({
           ref={chatContainerRef}
         >
           {renderMessages()}
-          <div style={{ paddingBottom: "15px" }} />
+          <div style={{ paddingBottom: "15px" }} className="last-padding-div" />
           {state.error && (
             <div>
-              <span style={{ color: 'red', fontSize: '0.85rem', paddingBottom: '3px' }}>
+              <span
+                style={{
+                  color: '#c6c6c6',
+                  fontSize: '0.85rem',
+                  paddingBottom: '5px',
+                  fontStyle: 'italic',
+                }}
+              >
                 {state.error}
               </span>
+              <InlineLoader/>
             </div>
           )}
         </div>
