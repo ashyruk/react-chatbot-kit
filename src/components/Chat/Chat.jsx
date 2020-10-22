@@ -10,6 +10,7 @@ import ChatIcon from "../../assets/icons/paper-plane.svg";
 import CancelIcon from "../../assets/icons/cancel.svg";
 import "./Chat.css";
 import InlineLoader from "../InlineLoader/InlineLoader";
+import TypingLoader from "../TypeIndicator/TypeIndicator";
 
 const Chat = ({
                 state,
@@ -28,7 +29,7 @@ const Chat = ({
                 visible,
                 firstOpen,
               }) => {
-  const { messages } = state;
+  const { messages, typing } = state;
   const chatContainerRef = useRef(null);
 
   const [input, setInputValue] = useState("");
@@ -45,7 +46,7 @@ const Chat = ({
   });
 
   const showAvatar = (messages, index) => {
-    if (index === 0) return true;
+    if (index < 1) return true;
 
     const lastMessage = messages[index - 1];
 
@@ -125,6 +126,49 @@ const Chat = ({
     });
   };
 
+  const renderTypingIndicator = () => {
+    const chatBoxCustomStyles = {};
+    const arrowCustomStyles = {};
+    const { botMessageBox } = customStyles;
+    if (botMessageBox) {
+      chatBoxCustomStyles.backgroundColor = botMessageBox.backgroundColor;
+      chatBoxCustomStyles.color = botMessageBox.color || '#fff';
+      arrowCustomStyles.borderRightColor = botMessageBox.backgroundColor;
+    }
+    let withAvatar;
+    const messageObject = messages.length ? messages[messages.length - 1] : {};
+    withAvatar = !messageObject.withAvatar;
+    return typing && (
+      <div className="react-chatbot-kit-chat-bot-message-container typing">
+        <ConditionallyRender
+          ifTrue={withAvatar}
+          show={
+            <ConditionallyRender
+              ifTrue={customComponents.botAvatar}
+              show={callIfExists(customComponents.botAvatar)}
+              elseShow={<ChatbotMessageAvatar />}
+            />
+          }
+        />
+        <div
+          className={`react-chatbot-kit-chat-bot-message${withAvatar ? ' with-avatar' : ''}`}
+          style={chatBoxCustomStyles}
+        >
+          <TypingLoader />
+          <ConditionallyRender
+            ifTrue={withAvatar}
+            show={
+              <div
+                className="react-chatbot-kit-chat-bot-message-arrow"
+                style={arrowCustomStyles}
+              />
+            }
+          />
+        </div>
+      </div>
+    )
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input) {
@@ -185,6 +229,7 @@ const Chat = ({
           ref={chatContainerRef}
         >
           {renderMessages()}
+          {renderTypingIndicator()}
           <div style={{ paddingBottom: "15px" }} className="last-padding-div" />
           {state.error && (
             <div>

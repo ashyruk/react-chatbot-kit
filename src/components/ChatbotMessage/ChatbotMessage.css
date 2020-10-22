@@ -61,6 +61,11 @@
   width: 100%;
   justify-content: center;
 }
+.chatbot-typing-loader-container {
+  display: flex;
+  width: 100%;
+  justify-content: start;
+}
 .chatbot-inline-loader-container {
   display: inline;
 }
@@ -79,6 +84,20 @@
   animation-delay: 0.4s;
 }
 
+#chatbot-typing-loader #chatbot-loader-dot1 {
+  animation: jump 1s infinite;
+}
+
+#chatbot-typing-loader #chatbot-loader-dot2 {
+  animation: jump 1s infinite;
+  animation-delay: 0.2s;
+}
+
+#chatbot-typing-loader #chatbot-loader-dot3 {
+  animation: jump 1s infinite;
+  animation-delay: 0.4s;
+}
+
 @keyframes load {
   0% {
     opacity: 0;
@@ -88,5 +107,17 @@
   }
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes jump {
+  0% {
+    cy: 40;
+  }
+  50% {
+    cy: 20;
+  }
+  100% {
+    cy: 40;
   }
 }
